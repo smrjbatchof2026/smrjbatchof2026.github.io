@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMRJ '26 | The Final Premiere</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Montserrat:wght@200;300;400;600&family=Playfair+Display:ital,wght@1,400&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="bg-[#0A0A0B] text-white selection:bg-red-900 selection:text-white overflow-x-hidden">
+
+    <div class="film-grain"></div>
+
+    <nav class="fixed top-0 w-full z-[100] px-6 py-4 flex justify-between items-center transition-all duration-500" id="main-nav">
+        <div class="cinzel text-2xl font-bold tracking-tighter gold-text">SMRJ '26</div>
+        <div class="hidden md:flex gap-8 text-[10px] tracking-[0.4em] uppercase font-semibold text-gray-400">
+            <a href="#hero" class="hover:text-red-600 transition">Entrance</a>
+            <a href="#video" class="hover:text-red-600 transition">Feature Film</a>
+            <a href="#yearbook" class="hover:text-red-600 transition">The Archive</a>
+            <a href="#messages" class="hover:text-red-600 transition">Tributes</a>
+        </div>
+        <div class="md:hidden text-gold">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 8h16M4 16h16" />
+            </svg>
+        </div>
+    </nav>
+
+    <header id="hero" class="relative h-[100dvh] flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0 scale-105 motion-safe:animate-slow-zoom">
+            <img src="assets/PREMIERE.png" class="w-full h-full object-cover opacity-50 brightness-[0.3] grayscale-[0.2]" alt="Cinema Backdrop">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0A0A0B] via-transparent to-[#0A0A0B]/60"></div>
+        </div>
+        
+        <div class="relative z-10 text-center px-4" data-aos="zoom-out" data-aos-duration="2500">
+            <div class="inline-flex items-center gap-3 mb-6">
+                <span class="h-px w-6 md:w-12 bg-red-800"></span>
+                <p class="cinzel text-[10px] md:text-xs tracking-[0.6em] text-red-600 font-bold uppercase">A Final Premiere Production</p>
+                <span class="h-px w-6 md:w-12 bg-red-800"></span>
+            </div>
+            <h1 class="cinzel text-5xl md:text-[9rem] font-black leading-none tracking-tighter mb-4">
+                BATCH <span class="gold-text">2026</span>
+            </h1>
+            <p class="montserrat text-[9px] md:text-xs tracking-[0.5em] uppercase text-gray-400 font-light mb-12">
+                Lights • Camera • Farewell • Seth M.R. Jaipuria
+            </p>
+            <a href="#video" class="btn-cinema px-10 py-4 rounded-full text-[10px] tracking-[0.3em] uppercase font-bold text-white transition-all duration-500 border border-white/20">
+                Witness the Legacy
+            </a>
+        </div>
+
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 opacity-30 flex flex-col items-center gap-3">
+            <span class="text-[8px] uppercase tracking-[0.3em]">Scroll</span>
+            <div class="w-px h-16 bg-gradient-to-b from-white to-transparent animate-pulse"></div>
+        </div>
+    </header>
+
+    <section id="video" class="py-32 px-6 bg-[#0A0A0B] relative">
+        <div class="max-w-6xl mx-auto" data-aos="fade-up">
+            <div class="text-center mb-16">
+                <h2 class="serif italic text-4xl md:text-5xl gold-text mb-4">The Final Cut</h2>
+                <div class="h-px w-24 bg-red-800 mx-auto opacity-50"></div>
+            </div>
+            <div class="relative aspect-video rounded-2xl overflow-hidden shadow-[0_0_80px_rgba(139,0,0,0.15)] border border-white/5">
+                <iframe class="w-full h-full" src="https://www.youtube.com/embed/YOUR_VIDEO_ID" title="Farewell Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </section>
+
+    <section id="yearbook" class="py-32 px-6 bg-[#0E0E10] border-y border-white/5">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16">
+            <div class="lg:w-1/2" data-aos="fade-right">
+                <h3 class="cinzel text-5xl mb-6">THE <br><span class="gold-text">ARCHIVE</span></h3>
+                <p class="montserrat text-gray-400 text-lg leading-loose mb-10 font-light">
+                    Every shared laugh, every silent victory, every frame of our story is captured here. Step into our digital gallery to experience the high-definition 3D yearbook.
+                </p>
+                <a href="archive.html" target="_blank" class="btn-cinema inline-block px-12 py-5 rounded-lg text-[11px] tracking-[0.4em] uppercase font-bold text-white">
+                    Open Flipbook Gallery
+                </a>
+            </div>
+            <div class="lg:w-1/2 relative group cursor-pointer" data-aos="fade-left">
+                <div class="absolute -inset-2 bg-gradient-to-r from-red-900 to-gold opacity-10 blur-xl group-hover:opacity-30 transition duration-1000"></div>
+                <img src="assets/FLIP_COVER.png" class="relative rounded-lg shadow-2xl grayscale group-hover:grayscale-0 transition duration-1000 border border-white/10" alt="Yearbook Preview">
+            </div>
+        </div>
+    </section>
+
+    <section id="messages" class="py-32 px-6 bg-[#0A0A0B]">
+        <div class="max-w-5xl mx-auto">
+            
+            <div class="mb-48 text-center" data-aos="fade-up">
+                <h4 class="cinzel text-[10px] tracking-[0.5em] text-red-700 mb-10 uppercase font-bold">The Torchbearers' Word</h4>
+                <div class="serif italic text-2xl md:text-5xl text-gray-200 leading-tight px-4 mb-8">
+                    "To the seniors who paved the path with excellence: you leave behind more than just memories; you leave a standard for us to chase."
+                </div>
+                <div class="h-1 w-12 bg-gold mx-auto mb-6"></div>
+                <p class="montserrat text-[10px] tracking-[0.4em] text-gray-500 uppercase">— A Message from the Juniors</p>
+            </div>
+
+            <div class="mb-48">
+                <h4 class="cinzel text-center text-3xl mb-20 gold-text italic tracking-wider">The Hall of Mentors</h4>
+                <div class="grid md:grid-cols-2 gap-10">
+                    <div class="p-10 bg-[#121214] border-l-4 border-red-900 rounded-r-2xl" data-aos="fade-up">
+                        <p class="serif text-xl text-gray-300 italic leading-relaxed mb-8">"Your batch carried a spark that refused to dim. As you move to larger stages, never lose that curiosity that made you unique."</p>
+                        <p class="cinzel text-xs tracking-widest gold-text font-bold uppercase">— Head of Department</p>
+                    </div>
+                    <div class="p-10 bg-[#121214] border-l-4 border-gold rounded-r-2xl" data-aos="fade-up" data-aos-delay="200">
+                        <p class="serif text-xl text-gray-300 italic leading-relaxed mb-8">"Education is what remains after one has forgotten what one has learned in school. You are all educated in the truest sense."</p>
+                        <p class="cinzel text-xs tracking-widest gold-text font-bold uppercase">— Class Coordinator</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center py-24 border-t border-white/5 relative overflow-hidden" data-aos="zoom-in">
+                <div class="absolute inset-0 opacity-5 pointer-events-none">
+                    <p class="cinzel text-[15rem] font-bold text-white whitespace-nowrap -translate-x-1/4">LEGACY</p>
+                </div>
+                <h3 class="cinzel text-4xl md:text-7xl mb-8 relative z-10">2027 <span class="gold-text px-4 text-3xl align-middle">PROMISES</span> 2026</h3>
+                <p class="serif italic text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto leading-relaxed relative z-10">
+                    "The corridors might be quiet, but the echo of your spirit remains. We promise to protect the legacy you've left behind."
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="py-20 text-center border-t border-white/5">
+        <div class="cinzel text-[10px] tracking-[0.8em] text-gray-500 uppercase mb-6">
+            Curated by the CTO | Batch of 2026
+        </div>
+        <div class="text-[8px] tracking-[0.4em] text-gray-700 uppercase">
+            Seth M.R. Jaipuria • Made with Honor
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="assets/script.js"></script>
+</body>
+</html>

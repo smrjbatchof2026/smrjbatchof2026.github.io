@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>The Archive | SMRJ Batch of 2026</title>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.rawgit.com/blasten/turn.js/master/turn.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/style.css">
+
+    <style>
+        body {
+            background: radial-gradient(circle, #1a1a1c 0%, #050505 100%);
+            margin: 0;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* The Cinema Stage */
+        #canvas {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 1s ease-in;
+        }
+
+        #book-container {
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        /* Flipbook Styling */
+        #my-flipbook {
+            width: 922px;
+            height: 600px;
+            background: transparent;
+        }
+
+        #my-flipbook .page {
+            background-color: white;
+            line-height: 0;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        #my-flipbook .hard {
+            background: #222 !important;
+            color: #ccc;
+            -webkit-box-shadow: inset 0 0 5px #666;
+            -moz-box-shadow: inset 0 0 5px #666;
+            -o-box-shadow: inset 0 0 5px #666;
+            box-shadow: inset 0 0 5px #666;
+            font-weight: bold;
+        }
+
+        /* Page Shadows for Realism */
+        .shadow {
+            -webkit-box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            -moz-box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        /* Controls UI */
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            z-index: 1000;
+            display: flex;
+            gap: 20px;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px);
+            padding: 12px 25px;
+            border-radius: 50px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .control-btn {
+            color: #D4AF37;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .control-btn:hover {
+            color: white;
+            text-shadow: 0 0 10px #D4AF37;
+        }
+
+        /* Loading Spinner */
+        #loader {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2000;
+        }
+        
+        .spinner {
+            border: 2px solid rgba(212, 175, 55, 0.1);
+            border-top: 2px solid #D4AF37;
+            border-radius: 50%;
+            width: 40px; height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Responsive Mobile Scaling */
+        @media (max-width: 1000px) {
+            #my-flipbook {
+                width: 100vw !important;
+                height: 65vh !important;
+            }
+            .controls {
+                width: 90%;
+                justify-content: space-around;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loader"><div class="spinner"></div></div>
+
+    <nav class="fixed top-0 w-full p-6 flex justify-between items-center z-50">
+        <a href="index.html" class="cinzel text-xs tracking-widest text-white/50 hover:text-white transition">← Exit Gallery</a>
+        <div class="cinzel text-xs tracking-[0.5em] gold-text">Yearbook • Archive 26</div>
+    </nav>
+
+    <div id="canvas">
+        <div id="book-container">
+            <div id="my-flipbook">
+                <div class="hard" style="background-image:url('assets/FLIP_COVER.png'); background-size: cover;"></div>
+                <div class="hard"></div> <div style="background-image:url('assets/FLIP_COVER.png'); background-size: cover;"></div>
+                <div style="background-image:url('assets/pages/2.jpg'); background-size: cover;"></div>
+                <div style="background-image:url('assets/pages/3.jpg'); background-size: cover;"></div>
+                <div style="background-image:url('assets/pages/4.jpg'); background-size: cover;"></div>
+<div style="background-image:url('assets/pages/5.jpg'); background-size: cover;"></div>
+<div style="background-image:url('assets/pages/6.jpg'); background-size: cover;"></div>
+<div style="background-image:url('assets/pages/7.jpg'); background-size: cover;"></div>
+
+<div style="background-image:url('assets/pages/8.jpg'); background-size: cover;"></div>
+
+<div style="background-image:url('assets/pages/9.jpg'); background-size: cover;"></div>
+
+<div style="background-image:url('assets/pages/6.jpg'); background-size: cover;"></div>
+
+
+                <div class="hard"></div>
+                <div class="hard" style="background-image:url('assets/pages/back-cover.jpg'); background-size: cover;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <div class="control-btn" onclick="$('#my-flipbook').turn('previous')">Prev</div>
+        <div class="h-4 w-px bg-white/10"></div>
+        <div id="page-number" class="text-[10px] text-white/40 montserrat uppercase tracking-widest pt-0.5">Page 1</div>
+        <div class="h-4 w-px bg-white/10"></div>
+        <div class="control-btn" onclick="$('#my-flipbook').turn('next')">Next</div>
+    </div>
+
+    <script>
+        $(window).ready(function() {
+            // Initialize Flipbook
+            $('#my-flipbook').turn({
+                acceleration: true,
+                gradients: true,
+                autoCenter: true,
+                duration: 1000,
+                elevation: 50,
+                when: {
+                    turned: function(e, page) {
+                        $('#page-number').text("Page " + page);
+                    },
+                    turning: function(e, page, view) {
+                        // Sound logic can be added here
+                    }
+                }
+            });
+
+            // Handle Resize for Mobile
+            function resizeBook() {
+                var width = window.innerWidth;
+                var height = window.innerHeight;
+                
+                if (width < 1000) {
+                    var scale = (width * 0.9) / 922;
+                    $('#book-container').css('transform', 'scale(' + scale + ')');
+                } else {
+                    $('#book-container').css('transform', 'scale(1)');
+                }
+            }
+
+            $(window).resize(resizeBook);
+            resizeBook();
+
+            // Remove Loader
+            setTimeout(function() {
+                $('#loader').fadeOut();
+                $('#canvas').css('opacity', '1');
+            }, 1500);
+        });
+
+        // Touch drag is natively supported by Turn.js
+        // Keyboard Support
+        $(window).bind('keydown', function(e){
+            if (e.keyCode == 37) $('#my-flipbook').turn('previous');
+            else if (e.keyCode == 39) $('#my-flipbook').turn('next');
+        });
+    </script>
+</body>
+</html>
