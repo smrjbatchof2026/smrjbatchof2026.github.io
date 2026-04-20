@@ -3,221 +3,237 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>The Archive | SMRJ Batch of 2026</title>
+    <title>The Archive | SMRJ '26</title>
     
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.rawgit.com/blasten/turn.js/master/turn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@300&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
 
     <style>
+        :root {
+            --bg-color: #050505;
+            --accent-gold: #d4af37;
+        }
+
         body {
             background: radial-gradient(circle, #1a1a1c 0%, #050505 100%);
-            margin: 0;
-            overflow: hidden;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            margin: 0; padding: 0; height: 100vh;
+            display: flex; flex-direction: column;
+            overflow: hidden; font-family: 'Montserrat', sans-serif;
+            color: white;
         }
 
-        /* The Cinema Stage */
-        #canvas {
+        /* Responsive Stage */
+        .stage {
+            flex: 1;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* The viewport that scales for zoom */
+        #zoom-viewport {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: center center;
             width: 100%;
             height: 100%;
+        }
+
+        #flipbook-container {
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+        }
+
+        .page-content {
+            width: 100%; height: 100%;
+            display: flex; background: #000;
+        }
+
+        .page-image {
+            width: 100%; height: 100%;
+            object-fit: contain;
+        }
+
+        /* Floating Navigation Overlay */
+        .floating-nav {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 10px 20px;
+            border-radius: 100px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             align-items: center;
-            justify-content: center;
-            transition: opacity 1s ease-in;
-        }
-
-        #book-container {
-            position: relative;
-            transition: transform 0.3s ease;
-        }
-
-        /* Flipbook Styling */
-        #my-flipbook {
-            width: 922px;
-            height: 600px;
-            background: transparent;
-        }
-
-        #my-flipbook .page {
-            background-color: white;
-            line-height: 0;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-        }
-
-        #my-flipbook .hard {
-            background: #222 !important;
-            color: #ccc;
-            -webkit-box-shadow: inset 0 0 5px #666;
-            -moz-box-shadow: inset 0 0 5px #666;
-            -o-box-shadow: inset 0 0 5px #666;
-            box-shadow: inset 0 0 5px #666;
-            font-weight: bold;
-        }
-
-        /* Page Shadows for Realism */
-        .shadow {
-            -webkit-box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            -moz-box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-        }
-
-        /* Controls UI */
-        .controls {
-            position: fixed;
-            bottom: 30px;
+            gap: 15px;
             z-index: 1000;
-            display: flex;
-            gap: 20px;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(10px);
-            padding: 12px 25px;
-            border-radius: 50px;
-            border: 1px solid rgba(212, 175, 55, 0.3);
+            white-space: nowrap;
         }
 
-        .control-btn {
-            color: #D4AF37;
-            font-family: 'Montserrat', sans-serif;
+        .nav-btn {
+            font-family: 'Cinzel', serif;
+            color: var(--accent-gold);
             font-size: 10px;
             letter-spacing: 2px;
             text-transform: uppercase;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: 0.3s;
         }
 
-        .control-btn:hover {
+        .zoom-ctrl {
+            display: flex;
+            align-items: center;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50px;
+            padding: 2px 10px;
+            gap: 12px;
+        }
+
+        .zoom-icon {
+            cursor: pointer;
+            font-size: 18px;
             color: white;
-            text-shadow: 0 0 10px #D4AF37;
+            opacity: 0.6;
+            transition: 0.3s;
         }
+        .zoom-icon:hover { opacity: 1; }
 
-        /* Loading Spinner */
+        /* Loader */
         #loader {
-            position: fixed;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 2000;
-        }
-        
-        .spinner {
-            border: 2px solid rgba(212, 175, 55, 0.1);
-            border-top: 2px solid #D4AF37;
-            border-radius: 50%;
-            width: 40px; height: 40px;
-            animation: spin 1s linear infinite;
+            position: fixed; inset: 0; background: #050505;
+            z-index: 2000; display: flex; align-items: center; justify-content: center;
         }
 
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        /* Responsive Mobile Scaling */
-        @media (max-width: 1000px) {
-            #my-flipbook {
-                width: 100vw !important;
-                height: 65vh !important;
-            }
-            .controls {
-                width: 90%;
-                justify-content: space-around;
-            }
+        /* Device Specific Fixes */
+        @media (max-width: 400px) { /* iPhone SE */
+            .floating-nav { bottom: 20px; gap: 8px; padding: 8px 15px; }
+            .nav-btn { font-size: 8px; letter-spacing: 1px; }
         }
     </style>
 </head>
 <body>
 
-    <div id="loader"><div class="spinner"></div></div>
+    <div id="loader"><div class="animate-spin rounded-full h-8 w-8 border-b-2 border-[#d4af37]"></div></div>
 
-    <nav class="fixed top-0 w-full p-6 flex justify-between items-center z-50">
-        <a href="index.html" class="cinzel text-xs tracking-widest text-white/50 hover:text-white transition">← Exit Gallery</a>
-        <div class="cinzel text-xs tracking-[0.5em] gold-text">Yearbook • Archive 26</div>
-    </nav>
+    <header class="p-5 flex justify-between items-center z-50">
+        <a href="index.html" class="cinzel text-[9px] tracking-widest text-white/40 hover:text-white transition">← BACK TO HOME</a>
+        <div id="page-name" class="cinzel text-[9px] tracking-[0.4em] text-[#d4af37] text-center hidden sm:block">THE ARCHIVE</div>
+        <div class="w-20 sm:hidden"></div> </header>
 
-    <div id="canvas">
-        <div id="book-container">
-            <div id="my-flipbook">
-                <div class="hard" style="background-image:url('assets/FLIP_COVER.png'); background-size: cover;"></div>
-                <div class="hard"></div> <div style="background-image:url('assets/FLIP_COVER.png'); background-size: cover;"></div>
-                <div style="background-image:url('assets/pages/2.jpg'); background-size: cover;"></div>
-                <div style="background-image:url('assets/pages/3.jpg'); background-size: cover;"></div>
-                <div style="background-image:url('assets/pages/4.jpg'); background-size: cover;"></div>
-<div style="background-image:url('assets/pages/5.jpg'); background-size: cover;"></div>
-<div style="background-image:url('assets/pages/6.jpg'); background-size: cover;"></div>
-<div style="background-image:url('assets/pages/7.jpg'); background-size: cover;"></div>
-
-<div style="background-image:url('assets/pages/8.jpg'); background-size: cover;"></div>
-
-<div style="background-image:url('assets/pages/9.jpg'); background-size: cover;"></div>
-
-<div style="background-image:url('assets/pages/6.jpg'); background-size: cover;"></div>
-
-
-                <div class="hard"></div>
-                <div class="hard" style="background-image:url('assets/pages/back-cover.jpg'); background-size: cover;"></div>
+    <main class="stage">
+        <div id="zoom-viewport">
+            <div id="flipbook-container">
+                <div class="page" data-name="SMRJ'26"><div class="page-content"><img src="assets/pages/1.jpg" class="page-image"></div></div>
+                <div class="page" data-name="SMRJ'26"><div class="page-content"><img src="assets/pages/2.jpg" class="page-image"></div></div>
+                <div class="page" data-name="SMRJ'26"><div class="page-content"><img src="assets/pages/3.jpg" class="page-image"></div></div>
+                <div class="page" data-name="SMRJ'26"><div class="page-content"><img src="assets/pages/4.jpg" class="page-image"></div></div>
+                <div class="page" data-name="SMRJ'26"><div class="page-content"><img src="assets/pages/5.jpg" class="page-image"></div></div>
+                <div class="page" data-name="SMRJ'26"><div class="page-content"><img src="assets/pages/6.jpg" class="page-image"></div></div>
+                <div class="page" data-name="SMRJ'26"><div class="page-content"><img src="assets/pages/7.jpg" class="page-image"></div></div>
+                <div class="page" data-name="SMRJ'26"><div class="page-content"><img src="assets/pages/8.jpg" class="page-image"></div></div>
+                <div class="page" data-name="SMRJ'26"><div class="page-content"><img src="assets/pages/9.jpg" class="page-image"></div></div>
+                <div class="page" data-name="SMRJ'26"><div class="page-content"><img src="assets/pages/10.jpg" class="page-image"></div></div>
+                <div class="page" data-name="SMRJ'26"><div class="page-content"><img src="assets/pages/11.jpg" class="page-image"></div></div>
+                <div class="page" data-name="SMRJ'26"><div class="page-content"><img src="assets/pages/12.jpg" class="page-image"></div></div>
+                <div class="page" data-name="SMRJ'26"><div class="page-content"><img src="assets/pages/13.jpg" class="page-image"></div></div>
+                <div class="page" data-name="SMRJ'26"><div class="page-content"><img src="assets/pages/14.jpg" class="page-image"></div></div>
+                <div class="page" data-name="SMRJ'26"><div class="page-content"><img src="assets/pages/15.jpg" class="page-image"></div></div>
             </div>
         </div>
-    </div>
 
-    <div class="controls">
-        <div class="control-btn" onclick="$('#my-flipbook').turn('previous')">Prev</div>
-        <div class="h-4 w-px bg-white/10"></div>
-        <div id="page-number" class="text-[10px] text-white/40 montserrat uppercase tracking-widest pt-0.5">Page 1</div>
-        <div class="h-4 w-px bg-white/10"></div>
-        <div class="control-btn" onclick="$('#my-flipbook').turn('next')">Next</div>
-    </div>
+        <nav class="floating-nav">
+            <div class="nav-btn" id="prevBtn">Prev</div>
+            
+            <div class="zoom-ctrl">
+                <span class="zoom-icon" id="zoomOut">−</span>
+                <span id="pageNumber" class="montserrat text-[9px] font-bold tracking-widest text-white/40">01/15</span>
+                <span class="zoom-icon" id="zoomIn">+</span>
+            </div>
+
+            <div class="nav-btn" id="nextBtn">Next</div>
+        </nav>
+    </main>
 
     <script>
-        $(window).ready(function() {
-            // Initialize Flipbook
-            $('#my-flipbook').turn({
-                acceleration: true,
-                gradients: true,
-                autoCenter: true,
-                duration: 1000,
-                elevation: 50,
-                when: {
-                    turned: function(e, page) {
-                        $('#page-number').text("Page " + page);
-                    },
-                    turning: function(e, page, view) {
-                        // Sound logic can be added here
-                    }
-                }
-            });
-
-            // Handle Resize for Mobile
-            function resizeBook() {
-                var width = window.innerWidth;
-                var height = window.innerHeight;
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.getElementById('flipbook-container');
+            const viewport = document.getElementById('zoom-viewport');
+            const pages = document.querySelectorAll(".page");
+            
+            // Calculator for auto-fit dimensions
+            function getOptimalSize() {
+                const isMobile = window.innerWidth < 768;
+                const ratio = 0.72; // Magazine aspect ratio
                 
-                if (width < 1000) {
-                    var scale = (width * 0.9) / 922;
-                    $('#book-container').css('transform', 'scale(' + scale + ')');
+                let h, w;
+                if (isMobile) {
+                    w = window.innerWidth * 0.88;
+                    h = w / ratio;
+                    // Cap height for small phones (iPhone SE)
+                    if (h > window.innerHeight * 0.7) {
+                        h = window.innerHeight * 0.7;
+                        w = h * ratio;
+                    }
                 } else {
-                    $('#book-container').css('transform', 'scale(1)');
+                    h = window.innerHeight * 0.75;
+                    w = h * ratio;
                 }
+                return { width: w, height: h };
             }
 
-            $(window).resize(resizeBook);
-            resizeBook();
+            const initial = getOptimalSize();
 
-            // Remove Loader
-            setTimeout(function() {
-                $('#loader').fadeOut();
-                $('#canvas').css('opacity', '1');
-            }, 1500);
-        });
+            const pageFlip = new St.PageFlip(container, {
+                width: initial.width,
+                height: initial.height,
+                size: "stretch",
+                showCover: true,
+                usePortrait: true,
+                drawShadow: true,
+                flippingTime: 800,
+                mobileScrollSupport: false
+            });
 
-        // Touch drag is natively supported by Turn.js
-        // Keyboard Support
-        $(window).bind('keydown', function(e){
-            if (e.keyCode == 37) $('#my-flipbook').turn('previous');
-            else if (e.keyCode == 39) $('#my-flipbook').turn('next');
+            pageFlip.loadFromHTML(pages);
+
+            // Zoom State
+            let currentScale = 1;
+            document.getElementById('zoomIn').onclick = () => {
+                if (currentScale < 1.6) currentScale += 0.15;
+                viewport.style.transform = `scale(${currentScale})`;
+            };
+            document.getElementById('zoomOut').onclick = () => {
+                if (currentScale > 0.6) currentScale -= 0.15;
+                viewport.style.transform = `scale(${currentScale})`;
+            };
+
+            // Updates
+            pageFlip.on('flip', (e) => {
+                const idx = e.data;
+                document.getElementById('pageNumber').innerText = `${String(idx + 1).padStart(2, '0')}/15`;
+                const name = pages[idx].getAttribute('data-name');
+                document.getElementById('page-name').innerText = name.toUpperCase();
+            });
+
+            document.getElementById('prevBtn').onclick = () => pageFlip.flipPrev();
+            document.getElementById('nextBtn').onclick = () => pageFlip.flipNext();
+
+            // Resize Handler
+            window.addEventListener('resize', () => {
+                const s = getOptimalSize();
+                pageFlip.update();
+            });
+
+            setTimeout(() => { document.getElementById('loader').style.display = 'none'; }, 1000);
         });
     </script>
 </body>
